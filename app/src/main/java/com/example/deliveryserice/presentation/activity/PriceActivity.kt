@@ -37,7 +37,7 @@ class PriceActivity : AppCompatActivity(), CallbeckProducts {
         api =Retrofit.apiService
 
         val magazine =intent.getStringExtra("NAME")
-        val id = intent.getLongExtra("ID", 0)
+        val id = intent.getIntExtra("ID", 0)
 
         binding.magazine.text = magazine
 
@@ -65,7 +65,7 @@ class PriceActivity : AppCompatActivity(), CallbeckProducts {
     override fun sell(products: Products) {
         lifecycleScope.launch(Dispatchers.IO) {
 
-            priceDao.insert(Products(products.id, products.img, products.magazine, products.title, products.price))
+            priceDao.insert(Products(products.id, products.img, products.magazine, products.title, products.price , products.boss))
 
             launch(Dispatchers.Main) {
                 Snackbar.make(binding.root,"${products.title} savatga solindi" , Snackbar.LENGTH_LONG).show()

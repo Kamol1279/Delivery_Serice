@@ -8,9 +8,8 @@ import com.example.deliveryserice.databinding.ItemProductsBinding
 import com.example.deliveryserice.domain.Products
 import com.squareup.picasso.Picasso
 
-class CardAdapter(private val products: List<Products>, private val callbeck: CallbeckCard) : RecyclerView.Adapter<CardAdapter.CardViewHolder>() {
+class CardAdapter(private val products: List<Products> , private val context: Context, private val callbeck: CallbeckCard ) : RecyclerView.Adapter<CardAdapter.CardViewHolder>() {
 
-    lateinit var context: Context
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CardViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -20,7 +19,7 @@ class CardAdapter(private val products: List<Products>, private val callbeck: Ca
     }
 
     override fun onBindViewHolder(holder: CardViewHolder, position: Int) {
-        context= this.context
+
         holder.bind(products[position] , context)
     }
 
@@ -46,7 +45,9 @@ class CardAdapter(private val products: List<Products>, private val callbeck: Ca
             binding.value.text = products.price.toString()
             binding.sell.text = " delet  "
 
-            Picasso.with(context).load(products.img).into(binding.image)
+            Picasso.with(context)
+                .load(products.img)
+                .into(binding.image)
 
             binding.sell.setOnClickListener {
                 callbeck.delet(products)

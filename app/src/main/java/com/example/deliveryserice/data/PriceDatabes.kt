@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.deliveryserice.domain.Products
 
-@Database(entities = [Products::class], version = 1 , exportSchema = false)
+@Database(entities = [Products::class], version = 3 , exportSchema = false)
 abstract class PriceDatabes : RoomDatabase() {
 
 

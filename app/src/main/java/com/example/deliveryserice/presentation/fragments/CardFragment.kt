@@ -41,7 +41,7 @@ class CardFragment : Fragment(), CardAdapter.CallbeckCard {
 
                 binding.price.text = editValue(list)
 
-                val adapter = CardAdapter(list , callbeck = { prices ->
+                val adapter = CardAdapter(list ,this@CardFragment.requireContext() ,callbeck = { prices ->
                     lifecycleScope.launch(Dispatchers.IO) {
 
                         priceDao.delet(prices)

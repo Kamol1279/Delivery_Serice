@@ -8,12 +8,13 @@ import androidx.room.PrimaryKey
 class Products(
 
     @PrimaryKey
-    val id : Long? = null,
+    val id : Int ,
 
     val  img : String,
     val magazine : String,
     val title : String,
-    val price : Int
+    val price : Int ,
+    val boss : Int
 
 ) {
 }

@@ -19,13 +19,13 @@ class PriceAdapter (private val price : List<Products> , private val context: Co
         val binding:ItemProductsBinding = ItemProductsBinding.inflate(inflater)
 
 
-        return PriceViewHolder(binding , callbeck , context )
+        return PriceViewHolder(binding , callbeck  )
     }
 
 
     override fun onBindViewHolder(holder: PriceViewHolder, position: Int) {
 
-        holder.bind(price[position] )
+        holder.bind(price[position] , context )
     }
 
     override fun getItemCount(): Int {
@@ -34,10 +34,10 @@ class PriceAdapter (private val price : List<Products> , private val context: Co
 
 
 }
-class PriceViewHolder ( private  val binding: ItemProductsBinding , private val callbeck: CallbeckProducts , private val context: Context):RecyclerView.ViewHolder(binding.root){
+class PriceViewHolder ( private  val binding: ItemProductsBinding , private val callbeck: CallbeckProducts ):RecyclerView.ViewHolder(binding.root){
 
 
-    fun bind(products: Products ){
+    fun bind(products: Products , context: Context ){
         binding.magazine.text=products.magazine
         binding.name.text=products.title
         binding.value.text=products.price.toString()

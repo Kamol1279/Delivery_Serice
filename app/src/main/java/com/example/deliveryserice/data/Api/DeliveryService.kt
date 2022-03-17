@@ -14,7 +14,7 @@ interface DeliveryService {
 
 
     @GET("magazines/{id}/menu/")
-    suspend fun getProducts(@Path ("id") id:Long ):List<Products>
+    suspend fun getProducts(@Path ("id") id:Int ):List<Products>
 
 }
 
