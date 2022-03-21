@@ -40,7 +40,7 @@ class CardAdapter(private val products: List<Products> , private val context: Co
         fun bind(products: Products , context: Context) {
 
 
-            binding.magazine.text = products.magazine
+
             binding.name.text = products.title
             binding.value.text = products.price.toString()
             binding.sell.text = " delet  "
