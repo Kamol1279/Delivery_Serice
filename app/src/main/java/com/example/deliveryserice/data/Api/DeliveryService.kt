@@ -2,6 +2,7 @@ package com.example.deliveryserice.data.Api
 
 import com.example.deliveryserice.domain.Magazine
 import com.example.deliveryserice.domain.Products
+import com.example.deliveryserice.domain.ProductsApi
 import com.google.gson.Gson
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -14,7 +15,7 @@ interface DeliveryService {
 
 
     @GET("magazines/{id}/menu/")
-    suspend fun getProducts(@Path ("id") id:Int ):List<Products>
+    suspend fun getProducts(@Path ("id") id:Int ):List<ProductsApi>
 
 }
 

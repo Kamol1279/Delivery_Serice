@@ -1,6 +1,5 @@
 package com.example.deliveryserice.presentation.activity
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
@@ -11,9 +10,9 @@ import com.example.deliveryserice.data.PriceDatabes
 import com.example.deliveryserice.data.PricesDao
 import com.example.deliveryserice.databinding.ActivityPricesBinding
 import com.example.deliveryserice.domain.Products
+import com.example.deliveryserice.domain.ProductsApi
 import com.example.deliveryserice.presentation.adapter.CallbeckProducts
 import com.example.deliveryserice.presentation.adapter.PriceAdapter
-import com.example.deliveryserice.presentation.fragments.MagazineFragment
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -62,10 +61,10 @@ class PriceActivity : AppCompatActivity(), CallbeckProducts {
 
     }
 
-    override fun sell(products: Products) {
+    override fun sell(products: ProductsApi) {
         lifecycleScope.launch(Dispatchers.IO) {
 
-            priceDao.insert(Products(products.id, products.img, products.magazine, products.title, products.price , products.boss))
+            priceDao.insert(Products(products.id, products.img,  products.title, products.price))
 
             launch(Dispatchers.Main) {
                 Snackbar.make(binding.root,"${products.title} savatga solindi" , Snackbar.LENGTH_LONG).show()

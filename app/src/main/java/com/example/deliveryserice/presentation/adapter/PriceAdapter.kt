@@ -5,12 +5,11 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.deliveryserice.databinding.ItemProductsBinding
-import com.example.deliveryserice.domain.Products
+import com.example.deliveryserice.domain.ProductsApi
 import com.squareup.picasso.Picasso
-import kotlin.coroutines.coroutineContext
 
 
-class PriceAdapter (private val price : List<Products> , private val context: Context , private val callbeck: CallbeckProducts  ) : RecyclerView.Adapter<PriceViewHolder>() {
+class PriceAdapter (private val price : List<ProductsApi> , private val context: Context , private val callbeck: CallbeckProducts  ) : RecyclerView.Adapter<PriceViewHolder>() {
 
 
 
@@ -37,8 +36,7 @@ class PriceAdapter (private val price : List<Products> , private val context: Co
 class PriceViewHolder ( private  val binding: ItemProductsBinding , private val callbeck: CallbeckProducts ):RecyclerView.ViewHolder(binding.root){
 
 
-    fun bind(products: Products , context: Context ){
-        binding.magazine.text=products.magazine
+    fun bind(products: ProductsApi, context: Context ){
         binding.name.text=products.title
         binding.value.text=products.price.toString()
 
@@ -55,5 +53,5 @@ class PriceViewHolder ( private  val binding: ItemProductsBinding , private val 
 }
 
 fun interface CallbeckProducts {
-    fun sell(products: Products)
+    fun sell(products: ProductsApi)
 }

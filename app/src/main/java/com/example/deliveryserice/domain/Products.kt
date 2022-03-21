@@ -6,15 +6,12 @@ import androidx.room.PrimaryKey
 
 @Entity
 class Products(
-
     @PrimaryKey
     val id : Int ,
-
     val  img : String,
-    val magazine : String,
     val title : String,
     val price : Int ,
-    val boss : Int
+
 
 ) {
 }
