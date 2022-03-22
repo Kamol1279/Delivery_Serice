@@ -6,8 +6,8 @@ import androidx.room.PrimaryKey
 
 @Entity
 class Products(
-    @PrimaryKey
-    val id : Int ,
+    @PrimaryKey(autoGenerate = true)
+    val id : Int?= null ,
     val  img : String,
     val title : String,
     val price : Int ,

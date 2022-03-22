@@ -64,7 +64,7 @@ class PriceActivity : AppCompatActivity(), CallbeckProducts {
     override fun sell(products: ProductsApi) {
         lifecycleScope.launch(Dispatchers.IO) {
 
-            priceDao.insert(Products(products.id, products.img,  products.title, products.price))
+            priceDao.insert(Products(null, products.img,  products.title, products.price))
 
             launch(Dispatchers.Main) {
                 Snackbar.make(binding.root,"${products.title} savatga solindi" , Snackbar.LENGTH_LONG).show()
