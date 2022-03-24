@@ -61,6 +61,9 @@ class OrderActivity : AppCompatActivity() {
                     api.postOrder(Order( binding.name.text.toString() , binding.adress.text.toString() , binding.phone.text.toString() ,
                     binding.value.text.toString(), list))
 
+                    launch(Dispatchers.Main){
+                        database.clearAllTables()
+                    }
                 }
 
 
