@@ -59,7 +59,7 @@ class OrderActivity : AppCompatActivity() {
                     val list = priceDao.getProducts()
 
                     api.postOrder(Order( binding.name.text.toString() , binding.adress.text.toString() , binding.phone.text.toString() ,
-                    binding.value.text.toString(), list))
+                    binding.value.text.toString()))
 
                     launch(Dispatchers.Main){
                         database.clearAllTables()
