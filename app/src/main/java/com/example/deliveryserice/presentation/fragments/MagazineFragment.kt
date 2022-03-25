@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.Adapter
 import android.widget.ArrayAdapter
 import android.widget.ListAdapter
+import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -39,42 +40,23 @@ class MagazineFragment : Fragment() , CallbeckMagazines {
         binding = FragmentMagazinesBinding.inflate(inflater)
 
 
+        lifecycleScope.launch(Dispatchers.IO) {
+
+            api = Retrofit.apiService
+            val list = api.getMagazine()
 
 
+            val adapter = MagazinesAdapter(list, callbeck = { price ->
+                onClick(price)
+            })
 
+            launch(Dispatchers.Main) {
 
-        fun checkNetworkConnection(){
-            cld = ConnectionLiveData(Application())
-            cld.observe(this) {
-                if (it) {
-                    lifecycleScope.launch(Dispatchers.IO) {
-
-
-                        api = Retrofit.apiService
-                        val list = api.getMagazine()
-
-
-                        val adapter = MagazinesAdapter(list, callbeck = { price ->
-                            onClick(price)
-                        })
-
-                        launch(Dispatchers.Main) {
-
-                            binding.recyclerMagazine.adapter = adapter
-                        }
-                    }
-
-                }
-                else{
-
-                    Snackbar.make(binding.root , "Iltimos internetingizni yokoing", Snackbar.LENGTH_LONG ).show()
-                }
-
+                binding.recyclerMagazine.adapter = adapter
             }
         }
 
 
-        checkNetworkConnection()
 
 
 
@@ -91,6 +73,7 @@ class MagazineFragment : Fragment() , CallbeckMagazines {
 
 
     }
+
 
 
 
