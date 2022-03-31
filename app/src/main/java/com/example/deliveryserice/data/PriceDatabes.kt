@@ -13,6 +13,7 @@ abstract class PriceDatabes : RoomDatabase() {
     abstract fun productsDao(): PricesDao
 
     companion object {
+
         fun getdatabase(context: Context):PriceDatabes {
 
             return  Room.databaseBuilder( context.applicationContext , PriceDatabes::class.java , "price" ).build()

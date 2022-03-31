@@ -1,12 +1,13 @@
 package com.example.deliveryserice.presentation.activity
 
+import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
-import android.location.Location
-import android.location.LocationListener
+import android.location.Geocoder
 import android.location.LocationManager
 import android.location.LocationRequest
 import android.os.Bundle
+import android.os.Looper
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -18,14 +19,21 @@ import com.example.deliveryserice.data.PricesDao
 import com.example.deliveryserice.databinding.ActivityOrderBinding
 import com.example.deliveryserice.domain.Order
 import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationCallback
+import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.util.jar.Manifest
+import java.util.*
 
 class OrderActivity : AppCompatActivity() {
 
+    lateinit var fusedLocationProviderClient: FusedLocationProviderClient
+   lateinit var locationRequest: com.google.android.gms.location.LocationRequest
+
+    var locationText = ""
+    var PERMISSION_ID = 0
     lateinit var binding: ActivityOrderBinding
     lateinit var api : DeliveryService
     lateinit var database: PriceDatabes
@@ -47,26 +55,140 @@ class OrderActivity : AppCompatActivity() {
 
         api = Retrofit.apiService
 
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
+
+        binding.getLocation.setOnClickListener {
+            getLocation()
+        }
+
 
         binding.order.setOnClickListener {
-            if (binding.name.text.isEmpty() || binding.phone.text.isEmpty() || binding.adress.text.isEmpty()) {
-                Snackbar.make(binding.root, "Malumotlarni kiriting", Snackbar.LENGTH_LONG).show()
+            if (binding.name.text.isNotEmpty() || binding.phone.text.isNotEmpty()) {
 
-            }
-
-            else {
                 lifecycleScope.launch(Dispatchers.IO){
                     val list = priceDao.getProducts()
 
-                    api.postOrder(Order( binding.name.text.toString() , binding.adress.text.toString() , binding.phone.text.toString() ,
-                    binding.value.text.toString()))
+                    api.postOrder(Order( binding.name.text.toString() , locationText , binding.phone.text.toString() ,
+                        binding.value.text.toString()))
 
                     launch(Dispatchers.Main){
                         database.clearAllTables()
                     }
                 }
+            }
+            else {
+                Snackbar.make(binding.root, "Malumotlarni kiriting", Snackbar.LENGTH_LONG).show()
+            }
 
 
+
+
+
+        }
+    }
+
+    private fun getLocation() {
+        if (checkPermission()){
+            if (isLocationEnabled()){
+                fusedLocationProviderClient.lastLocation.addOnCompleteListener{ task ->
+                    val location = task.result
+                    if (location == null){
+                        getNewLocation()
+                    }
+                    else{
+
+                         locationText = "lat : ${location.latitude} ; long : ${location.longitude}"
+
+                    }
+                }
+            }
+            else{
+                Snackbar.make(binding.root , "Iltimos GPS ni yoking", Snackbar.LENGTH_LONG).show()
+            }
+        }
+        else{
+            requestPermission()
+        }
+    }
+
+    private fun getCityName ( lat:Double , lon:Double):String {
+        var address = ""
+        var geoCoder = Geocoder(this , Locale.getDefault())
+        val listAddress = geoCoder.getFromLocation(lat , lon , 1)
+        address = listAddress.get(0).locality
+        return address
+
+    }
+
+    private fun getCountry ( lat:Double , lon:Double):String {
+        var countryAddress = ""
+        var geoCoder = Geocoder(this , Locale.getDefault())
+        val listAddress = geoCoder.getFromLocation(lat , lon , 1)
+        countryAddress = listAddress.get(0).countryName
+        return countryAddress
+
+    }
+
+    private fun getNewLocation(){
+        locationRequest = com.google.android.gms.location.LocationRequest()
+        locationRequest.priority = com.google.android.gms.location.LocationRequest.PRIORITY_HIGH_ACCURACY
+        locationRequest.interval = 0
+        locationRequest.fastestInterval = 0
+        locationRequest.numUpdates = 2
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return
+        }
+        fusedLocationProviderClient!!.requestLocationUpdates(
+            locationRequest, locationCallback , Looper.myLooper())
+    }
+
+    private val locationCallback = object  : LocationCallback(){
+        override fun onLocationResult(p0: LocationResult) {
+            super.onLocationResult(p0)
+            var lostLocation = p0.lastLocation
+            locationText = "lat : ${lostLocation.latitude} ; long : ${lostLocation.longitude}"
+        }
+    }
+
+
+
+    private fun checkPermission():Boolean {
+
+        return ActivityCompat.checkSelfPermission(this , android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED ||
+                ActivityCompat.checkSelfPermission(this , android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
+    }
+    private fun requestPermission(){
+        ActivityCompat.requestPermissions(
+            this,
+            arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION , android.Manifest.permission.ACCESS_COARSE_LOCATION ),
+            PERMISSION_ID
+        )
+    }
+    private fun isLocationEnabled () : Boolean {
+        val locationManger = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        return locationManger.isProviderEnabled(LocationManager.GPS_PROVIDER) ||
+                locationManger.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == PERMISSION_ID){
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED ){
+                Log.d("Debug:" , "You Have the Permission")
             }
         }
     }

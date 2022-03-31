@@ -32,6 +32,7 @@ class MenuActivity:AppCompatActivity() {
 
     }
 
+
     private fun checkNetworkConnect(application: Application) {
 
         cld = ConnectionLiveData(application)

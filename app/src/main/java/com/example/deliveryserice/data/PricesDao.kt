@@ -13,7 +13,7 @@ interface PricesDao {
     fun getProducts () : List<Products>
 
     @Insert
-    fun insert (vararg prosuct:Products)
+    fun insert (vararg prosuct :Products)
 
     @Delete
     fun delet (products: Products)

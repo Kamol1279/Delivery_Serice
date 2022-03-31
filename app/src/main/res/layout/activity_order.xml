@@ -111,20 +111,15 @@
                 android:textColor="@color/black"
                 app:layout_constraintTop_toBottomOf="@+id/phone"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" android:id="@+id/textView10"/>
-        <EditText
-                android:id="@+id/adress"
-                android:layout_width="match_parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:id="@+id/textView10"/>
+
+        <Button android:id="@+id/getLocation"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="50dp"
-                android:layout_marginRight="50dp"
-                android:layout_marginTop="10dp"
-                android:gravity="center"
-                android:padding="7dp"
-                android:hint="Tuman ,  Maxalla va ko'cha"
-                android:textColorHint="@color/black"
-                android:textSize="18sp"
-                android:background="@drawable/item_edittext"
+                android:layout_marginTop="13dp"
+                android:backgroundTint="#64D43C"
+                android:text="Loqatsiyani olish"
                 app:layout_constraintTop_toBottomOf="@+id/textView10"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"/>
@@ -134,13 +129,13 @@
                 android:id="@+id/order"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="70dp"
+                android:layout_marginTop="20sp"
                 android:backgroundTint="#64D43C"
                 android:text="Buyurtirish"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintHorizontal_bias="0.501"
-                app:layout_constraintTop_toBottomOf="@+id/adress"/>
+                app:layout_constraintTop_toBottomOf="@+id/getLocation"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -31,6 +31,7 @@ import kotlinx.coroutines.launch
 
 class MagazineFragment : Fragment() , CallbeckMagazines {
     lateinit var api : DeliveryService
+
     lateinit var connectivityManager : ConnectivityManager
     private lateinit var cld : ConnectionLiveData
 

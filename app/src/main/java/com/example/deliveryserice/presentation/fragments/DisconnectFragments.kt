@@ -16,12 +16,6 @@ class DisconnectFragments : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentDisconnectBinding.inflate(inflater)
 
-
-        binding.refresh.setOnClickListener {
-            startActivity(Intent(this.context , MenuActivity::class.java ))
-        }
-
-
         return binding.root
     }
 }
