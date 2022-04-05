@@ -3,6 +3,7 @@ package com.example.deliveryserice.presentation.adapter
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
 import com.example.deliveryserice.databinding.ItemProductsBinding
 import com.example.deliveryserice.domain.Products
@@ -45,8 +46,9 @@ class CardAdapter(private val products: List<Products> , private val context: Co
             binding.value.text = products.price.toString()
             binding.sell.text = " delet  "
 
+            val uri = "https://marketapi.pythonanywhere.com"+products.img
             Picasso.with(context)
-                .load(products.img)
+                .load(uri.toUri())
                 .into(binding.image)
 
             binding.sell.setOnClickListener {

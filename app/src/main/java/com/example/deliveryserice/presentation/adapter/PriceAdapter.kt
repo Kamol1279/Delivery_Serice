@@ -3,6 +3,7 @@ package com.example.deliveryserice.presentation.adapter
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
 import com.example.deliveryserice.databinding.ItemProductsBinding
 import com.example.deliveryserice.domain.ProductsApi
@@ -40,8 +41,10 @@ class PriceViewHolder ( private  val binding: ItemProductsBinding , private val 
         binding.name.text=products.title
         binding.value.text=products.price.toString()
 
+        val uri = "https://marketapi.pythonanywhere.com" + products.img
+
        Picasso.with(context)
-           .load(products.img)
+           .load(uri.toUri())
            .into(binding.image)
 
 
