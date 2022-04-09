@@ -67,7 +67,7 @@ class OrderActivity : AppCompatActivity() {
                 val coroutineExceptionHandler = CoroutineExceptionHandler{_,throwable->
                     throwable.printStackTrace()
                 }
-                lifecycleScope.launch(Dispatchers.IO + coroutineExceptionHandler) {
+                lifecycleScope.launch(Dispatchers.IO ) {
                     val list = priceDao.getProducts()
 
                     api.postOrder(
@@ -96,9 +96,11 @@ class OrderActivity : AppCompatActivity() {
                     val location = task.result
                     if (location == null) {
                         getNewLocation()
+
                     } else {
 
                         locationText = "lat : ${location.latitude} ; long : ${location.longitude}"
+                        Snackbar.make(binding.root , "lokatsiya olindi" , Snackbar.LENGTH_LONG ).show()
 
                     }
                 }
