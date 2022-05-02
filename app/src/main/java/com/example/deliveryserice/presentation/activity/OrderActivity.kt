@@ -3,9 +3,7 @@ package com.example.deliveryserice.presentation.activity
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
-import android.location.Geocoder
 import android.location.LocationManager
-import android.location.LocationRequest
 import android.os.Bundle
 import android.os.Looper
 import android.util.Log
@@ -26,7 +24,6 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.util.*
 
 class OrderActivity : AppCompatActivity() {
 
@@ -64,6 +61,7 @@ class OrderActivity : AppCompatActivity() {
 
         binding.order.setOnClickListener {
             if (binding.name.text.isNotEmpty() && binding.phone.text.isNotEmpty()) {
+
                 val coroutineExceptionHandler = CoroutineExceptionHandler{_,throwable->
                     throwable.printStackTrace()
                 }
@@ -74,14 +72,17 @@ class OrderActivity : AppCompatActivity() {
                         Order(
                             binding.name.text.toString(), locationText, binding.phone.text.toString(),
                             binding.value.text.toString()
-                        )
-                    )
+                        ))
+
+                    priceDao.deleteAll(list)
 
                     launch(Dispatchers.Main) {
-                        database.clearAllTables()
+                        finish()
                     }
                 }
-            } else {
+
+            }
+            else {
                 Snackbar.make(binding.root, "Malumotlarni kiriting", Snackbar.LENGTH_LONG).show()
             }
 

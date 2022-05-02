@@ -11,9 +11,9 @@ import com.example.deliveryserice.presentation.fragments.DisconnectFragments
 import com.example.deliveryserice.presentation.fragments.MagazineFragment
 import com.example.deliveryserice.presentation.fragments.ProfileFragments
 
-class MenuActivity:AppCompatActivity() {
+class MenuActivity : AppCompatActivity() {
 
-    lateinit var cld : ConnectionLiveData
+    lateinit var cld: ConnectionLiveData
     lateinit var binding: ActivityMenuBinding
 
     val magazinesFragment = MagazineFragment()
@@ -23,50 +23,48 @@ class MenuActivity:AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding= ActivityMenuBinding.inflate(layoutInflater)
+        binding = ActivityMenuBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
 
         checkNetworkConnect(application)
 
-
     }
-
 
     private fun checkNetworkConnect(application: Application) {
 
         cld = ConnectionLiveData(application)
 
-        cld.observe(this){ isConnected ->
+        cld.observe(this) { isConnected ->
 
-            if (isConnected){
+            if (isConnected) {
 
-                binding.menu.setOnItemSelectedListener { val id = it.itemId
+                binding.menu.setOnItemSelectedListener {
+                    val id = it.itemId
 
-                    val fragment = when (id){
+                    val fragment = when (id) {
                         R.id.home -> magazinesFragment
                         R.id.card -> cardFragment
                         R.id.profile -> profileFragment
-                        else ->magazinesFragment
+                        else -> magazinesFragment
                     }
 
                     supportFragmentManager
                         .beginTransaction()
-                        .replace(R.id.fragment , fragment)
+                        .replace(R.id.fragment, fragment)
                         .commit()
 
                     true
                 }
 
 
-                binding.menu.selectedItemId= R.id.home
-            }
+                binding.menu.selectedItemId = R.id.home
 
-            else {
+            } else {
 
                 supportFragmentManager
                     .beginTransaction()
-                    .replace(R.id.fragment , disconnectFragment)
+                    .replace(R.id.fragment, disconnectFragment)
                     .commit()
 
             }

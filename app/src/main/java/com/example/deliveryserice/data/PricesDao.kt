@@ -12,10 +12,13 @@ interface PricesDao {
     @Query("select * from Products")
     fun getProducts () : List<Products>
 
+    @Delete
+    fun deleteAll (products : List<Products> )
+
     @Insert
-    fun insert (vararg prosuct :Products)
+    fun insert (vararg product :Products)
 
     @Delete
-    fun delet (products: Products)
+    fun delete (products: Products)
 
 }

@@ -44,15 +44,11 @@ class CardFragment : Fragment(), CardAdapter.CallbeckCard {
                 val adapter = CardAdapter(list ,this@CardFragment.requireContext() ,callbeck = { prices ->
                     lifecycleScope.launch(Dispatchers.IO) {
 
-                        priceDao.delet(prices)
+                        priceDao.delete(prices)
 
                         launch(Dispatchers.Main) {
-
                             (binding.recyclerSells.adapter as CardAdapter).remove(prices)
-
-                            val newValue = value - prices.price.toInt()
-                            value = newValue
-                            binding.price.text = value.toString()
+                            newValue(prices)
 
                             Snackbar.make(binding.root , "${prices.title} savatdan olip tashlandi" , Snackbar.LENGTH_LONG).show()
 
@@ -70,6 +66,7 @@ class CardFragment : Fragment(), CardAdapter.CallbeckCard {
         binding.order.setOnClickListener {
 
             startActivity(Intent(this.context, OrderActivity::class.java).putExtra("VALUE", value))
+            value = 0
         }
 
 
@@ -85,9 +82,14 @@ class CardFragment : Fragment(), CardAdapter.CallbeckCard {
     fun editValue (list : List<Products>) : String {
 
         for (i in list) {
-            value += i.price.toInt()
+            value += i.price
         }
         return value.toString()
+    }
+    fun newValue(prices : Products){
+        val newValue = value - prices.price
+        value = newValue
+        binding.price.text = value.toString()
     }
 }
 

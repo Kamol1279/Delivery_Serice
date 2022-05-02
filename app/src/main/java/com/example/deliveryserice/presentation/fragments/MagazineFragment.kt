@@ -41,21 +41,24 @@ class MagazineFragment : Fragment() , CallbeckMagazines {
         binding = FragmentMagazinesBinding.inflate(inflater)
 
 
-        lifecycleScope.launch(Dispatchers.IO) {
 
-            api = Retrofit.apiService
-            val list = api.getMagazine()
+            lifecycleScope.launch(Dispatchers.IO) {
+
+                api = Retrofit.apiService
+                val list = api.getMagazine()
 
 
-            val adapter = MagazinesAdapter(list, callbeck = { price ->
-                onClick(price)
-            })
+                val adapter = MagazinesAdapter(list, callbeck = { price ->
+                    onClick(price)
+                })
 
-            launch(Dispatchers.Main) {
+                launch(Dispatchers.Main) {
 
-                binding.recyclerMagazine.adapter = adapter
+                    binding.recyclerMagazine.adapter = adapter
+                }
             }
-        }
+
+
 
 
 

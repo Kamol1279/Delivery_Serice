@@ -5,10 +5,7 @@ import com.example.deliveryserice.domain.Order
 import com.example.deliveryserice.domain.Products
 import com.example.deliveryserice.domain.ProductsApi
 import com.google.gson.Gson
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Path
+import retrofit2.http.*
 import java.util.Locale
 
 interface DeliveryService {
@@ -22,6 +19,5 @@ interface DeliveryService {
 
     @POST("register/")
     suspend fun postOrder( @Body order : Order) : Order
-
 }
 
