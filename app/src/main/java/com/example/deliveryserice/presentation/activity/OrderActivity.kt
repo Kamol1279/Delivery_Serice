@@ -30,7 +30,8 @@ class OrderActivity : AppCompatActivity() {
     lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     lateinit var locationRequest: com.google.android.gms.location.LocationRequest
 
-    var locationText = ""
+    var long = ""
+    var lat = ""
     var PERMISSION_ID = 0
     lateinit var binding: ActivityOrderBinding
     lateinit var api: DeliveryService
@@ -70,8 +71,12 @@ class OrderActivity : AppCompatActivity() {
 
                     api.postOrder(
                         Order(
-                            binding.name.text.toString(), locationText, binding.phone.text.toString(),
-                            binding.value.text.toString()
+                            binding.name.text.toString(),
+                            binding.phone.text.toString(),
+                            binding.value.text.toString(),
+                            long,
+                            lat,
+                            list,
                         ))
 
                     priceDao.deleteAll(list)
@@ -95,12 +100,14 @@ class OrderActivity : AppCompatActivity() {
             if (isLocationEnabled()) {
                 fusedLocationProviderClient.lastLocation.addOnCompleteListener { task ->
                     val location = task.result
+
                     if (location == null) {
                         getNewLocation()
 
                     } else {
+                        long = location.longitude.toString()
+                        lat = location.latitude.toString()
 
-                        locationText = "lat : ${location.latitude} ; long : ${location.longitude}"
                         Snackbar.make(binding.root , "lokatsiya olindi" , Snackbar.LENGTH_LONG ).show()
 
                     }
@@ -140,7 +147,9 @@ class OrderActivity : AppCompatActivity() {
         override fun onLocationResult(p0: LocationResult) {
             super.onLocationResult(p0)
             var lostLocation = p0.lastLocation
-            locationText = "lat : ${lostLocation.latitude} ; long : ${lostLocation.longitude}"
+
+            long = lostLocation.longitude.toString()
+            lat = lostLocation.latitude.toString()
         }
     }
 
